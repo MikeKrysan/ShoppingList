@@ -5,8 +5,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
+//Модель, которая отвечает за список покупок (например, воскресные покупки, рождественские покупки):
+
 @Entity (tableName = "shopping_list_names")
-data class ShoppingListNames(
+data class ShoppingListNames(   //2
     @PrimaryKey (autoGenerate = true)
     val id: Int?,
 
