@@ -2,7 +2,7 @@ package com.mikekrysan.shoppinglist
 
 /**
  * 1. Добавляем зависимости в build.gradle(Modules) и настраиваем build.gradle(Project)
- * 2.
+ * 2. Entities в roomPersistensLibrary. Создаем папку entities,  в ней dataClass ShoppinListNames
  */
 
 import androidx.appcompat.app.AppCompatActivity
