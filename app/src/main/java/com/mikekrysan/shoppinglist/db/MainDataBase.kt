@@ -12,6 +12,7 @@ import kotlinx.coroutines.internal.synchronized
 
 @Database (entities = [LibraryItem::class, NoteItem::class, ShoppingListItem::class], version = 1)  //***
 abstract class MainDataBase : RoomDatabase() {  //4.1
+    abstract fun getDao(): Dao  //5.2
 
     companion object {  //4.1 companion object дает возможность все что мы напишем внутри (специальную функцию) использовать без инициализации класса
         @Volatile   //поле, которому мы присваиваем аннотацию @Volatile будет инстанцией класса:

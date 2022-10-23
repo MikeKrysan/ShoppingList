@@ -8,6 +8,9 @@ package com.mikekrysan.shoppinglist.activities
  *      Для инициализации и получения доступа к базе данных создаем класс activities->MainApp
  *      В манифесте добавляем строку android:name=".activities.MainApp" для того чтобы AS знала, что когда запускается приложение, запускается класс MainApp, который унаследован от общего
  *      класса Application()
+ * 5. Создаем MainApplication класс
+ * 5.1 Создаем интерфейс DataAccessObject (DAO) в папке db
+ * 5.2 Получать доступ к интерфейсу Dao будем через функцию getDao() класса MainDataBase
  */
 
 import androidx.appcompat.app.AppCompatActivity
