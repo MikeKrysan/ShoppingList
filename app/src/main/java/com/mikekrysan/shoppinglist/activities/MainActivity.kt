@@ -14,6 +14,7 @@ import com.mikekrysan.shoppinglist.databinding.ActivityMainBinding
 Урок5 - Создаем MainApplication класс
 Урок6 - Создаем нижнее меню BottomNavigationView
 Урок7 - Создаем FragmentManager класс и BaseFragment
+Урок8 - Создаем адаптер для RecyclerView
  */
 
 class MainActivity : AppCompatActivity() {
