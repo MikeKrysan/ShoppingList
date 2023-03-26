@@ -13,6 +13,7 @@ import com.mikekrysan.shoppinglist.databinding.ActivityMainBinding
 Урок4 - MainDataBase class
 Урок5 - Создаем MainApplication класс
 Урок6 - Создаем нижнее меню BottomNavigationView
+Урок7 - Создаем FragmentManager класс и BaseFragment
  */
 
 class MainActivity : AppCompatActivity() {
