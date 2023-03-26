@@ -20,7 +20,7 @@ import com.mikekrysan.shoppinglist.fragments.NoteFragment
 Урок9 - Начинаем создавать NoteFragment
 Урок10 -  Создаем ViewModel класс. Архитектура MVVM
 Урок11 - NewNoteActivity
-
+Урок12 - Cоздаем ActivityResultLauncher для NoteFragment
  */
 
 class MainActivity : AppCompatActivity() {
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d("MyLog", "List")
                 }
                 R.id.new_item -> {
-                    FragmentManager.currentFrag?.onClickNew()
+                    FragmentManager.currentFrag?.onClickNew()   //11.1
                 }
             }
             true
