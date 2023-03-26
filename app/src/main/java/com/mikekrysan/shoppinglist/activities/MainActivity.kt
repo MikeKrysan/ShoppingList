@@ -18,6 +18,7 @@ import com.mikekrysan.shoppinglist.fragments.NoteFragment
 Урок7 - Создаем FragmentManager класс и BaseFragment
 Урок8 - Создаем адаптер для RecyclerView
 Урок9 - Начинаем создавать NoteFragment
+Урок10 -  Создаем ViewModel класс. Архитектура MVVM
  */
 
 class MainActivity : AppCompatActivity() {
