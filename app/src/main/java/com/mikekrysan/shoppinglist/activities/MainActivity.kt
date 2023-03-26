@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import com.mikekrysan.shoppinglist.R
 import com.mikekrysan.shoppinglist.databinding.ActivityMainBinding
+import com.mikekrysan.shoppinglist.fragments.FragmentManager
+import com.mikekrysan.shoppinglist.fragments.NoteFragment
 
 /*
 Урок1 - создание зависимостей. Room persistance library
@@ -15,6 +17,7 @@ import com.mikekrysan.shoppinglist.databinding.ActivityMainBinding
 Урок6 - Создаем нижнее меню BottomNavigationView
 Урок7 - Создаем FragmentManager класс и BaseFragment
 Урок8 - Создаем адаптер для RecyclerView
+Урок9 - Начинаем создавать NoteFragment
  */
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d("MyLog", "Settings")
                 }
                 R.id.notes -> {
-                    Log.d("MyLog", "Notes")
+                   FragmentManager.setFragment(NoteFragment.newInstance(), this)    //9.1
                 }
                 R.id.shop_list -> {
                     Log.d("MyLog", "List")
@@ -49,3 +52,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+/*
+Архитектура MVVM - не будет прямого доступа из veiw-элементов к бизнес логике. Мы хотим добавить посредника.
+ */
