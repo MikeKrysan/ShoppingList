@@ -1,11 +1,13 @@
 package com.mikekrysan.shoppinglist.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.mikekrysan.shoppinglist.activities.MainApp
+import com.mikekrysan.shoppinglist.activities.NewNoteActivity
 import com.mikekrysan.shoppinglist.databinding.FragmentNoteBinding
 import com.mikekrysan.shoppinglist.db.MainViewModel
 
@@ -21,7 +23,7 @@ class NoteFragment : BaseFragment() {
 
     //при нажатии на кнопку "Добавить новую заметку" сдесь будет запускатся логика для добавления новой заметки в базу данных
     override fun onClickNew() {
-
+        startActivity(Intent(activity, NewNoteActivity::class.java))
     }
 
     //10.6

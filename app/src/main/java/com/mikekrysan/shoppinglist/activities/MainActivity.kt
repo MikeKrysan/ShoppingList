@@ -19,6 +19,8 @@ import com.mikekrysan.shoppinglist.fragments.NoteFragment
 Урок8 - Создаем адаптер для RecyclerView
 Урок9 - Начинаем создавать NoteFragment
 Урок10 -  Создаем ViewModel класс. Архитектура MVVM
+Урок11 - NewNoteActivity
+
  */
 
 class MainActivity : AppCompatActivity() {
@@ -46,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d("MyLog", "List")
                 }
                 R.id.new_item -> {
-                    Log.d("MyLog", "New")
+                    FragmentManager.currentFrag?.onClickNew()
                 }
             }
             true
