@@ -7,7 +7,10 @@ import android.view.Menu
 import android.view.MenuItem
 import com.mikekrysan.shoppinglist.R
 import com.mikekrysan.shoppinglist.databinding.ActivityNewNoteBinding
+import com.mikekrysan.shoppinglist.entities.NoteItem
 import com.mikekrysan.shoppinglist.fragments.NoteFragment
+import java.text.SimpleDateFormat
+import java.util.*
 
 //11:
 class NewNoteActivity : AppCompatActivity() {
@@ -41,11 +44,34 @@ class NewNoteActivity : AppCompatActivity() {
         //создаем намерение:
         val i = Intent().apply {
             //указываем, что в нашем intent. Передаем значение,которое хотим передать. Берем из binding класса
-            putExtra(NoteFragment.TITLE_KEY, binding.edTitle.text.toString())
-            putExtra(NoteFragment.DESC_KEY, binding.edDescription.text.toString())
+//            putExtra(NoteFragment.TITLE_KEY, binding.edTitle.text.toString())
+//            putExtra(NoteFragment.DESC_KEY, binding.edDescription.text.toString())
+            //Как мы отправляем NoteItem в NoteFragment?:
+//            putExtra(NoteFragment.NEW_NOTE_KEY, binding.edTitle.text.toString())
+            //13.10 в putExtra мы создаем и заполяняем класс NoteItem() и его отправляем назад на наш NoteFragment (onEditResult() -> получаем с помощью getSerializableExtra)
+            putExtra(NoteFragment.NEW_NOTE_KEY, createNewNote())
+
         }
         setResult(RESULT_OK, i)
         finish()
+    }
+
+    //13.9 Функция будет собирать все воедино и заполянть класс NoteItem. И этот класс NoteItem будем возвращать заполенным который мы и передадим на наш фрагмент, откуда мы его и запрашиваем
+    private fun createNewNote(): NoteItem {
+        return NoteItem(
+            null,
+            binding.edTitle.text.toString(),
+            binding.edDescription.text.toString(),
+            getCurrentTime(),
+            ""
+        )
+    }
+
+
+    //13.8 Создаем функцию которая будет брать настоящее время. Потому что мы хотим записывать время
+    private fun getCurrentTime(): String {
+        val formatter = SimpleDateFormat("hh:mm:ss - yyyy/MM/dd", Locale.getDefault())
+        return formatter.format(Calendar.getInstance().time)
     }
 
     //активируем стрелку "назад"

@@ -21,6 +21,11 @@ import com.mikekrysan.shoppinglist.fragments.NoteFragment
 Урок10 -  Создаем ViewModel класс. Архитектура MVVM
 Урок11 - NewNoteActivity
 Урок12 - Cоздаем ActivityResultLauncher для NoteFragment
+Урок13 - Делаем сохранение заметок
+    Пришло время проверить как записывается и считывается информация в БД. Для этого нам нужно сделать следующее:
+    13.1 В NoteFragment добавляем обсервер который следит за изменениями и обновляет наш адаптер
+    13.2 Нам нужно добавить recyclerView на нашу разметку. RecyclerView - это такой view, в котором мы будем показывать элементы из списка
+    13.3 Нужно инициализировать адаптер
  */
 
 class MainActivity : AppCompatActivity() {

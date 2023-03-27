@@ -29,6 +29,7 @@
                 android:id="@+id/edTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
                 android:layout_marginBottom="677dp"
                 android:ems="10"
                 android:hint="@string/title_hint"
