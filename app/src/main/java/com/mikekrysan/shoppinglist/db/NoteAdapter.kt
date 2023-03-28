@@ -14,7 +14,7 @@ import com.mikekrysan.shoppinglist.entities.NoteItem
 //8
 //В треугольных скобках указываем, что за элемент будет в списке- мы будем показывать в одном элементе одну заметку:
 //DiffUtilClass отвечает за то, чтобы сравнивать элементы между собой старого списка и нового и за нас будет делать работу: что обновлять, как обновлять, какую функцию запустить чтобы сделать обновление
-class NoteAdapter : ListAdapter<NoteItem, NoteAdapter.ItemHolder>(ItemComparator()) {
+class NoteAdapter(private val listener: Listener) : ListAdapter<NoteItem, NoteAdapter.ItemHolder>(ItemComparator()) {
 
     //8.4 здесь создаем наш холдер. Функция будет создавать для каждой заметки свой собственный ItemHolder, который в себе будет создавать эту разметку для каждого элемента
     //Можно и сразу создать здесь функцию create(), но лучше разделять логику. В функции onCreateViewHolder нужно создать и вернуть ViewHolder, поэтому мы делаем функцию create() которая его создаст
@@ -25,17 +25,22 @@ class NoteAdapter : ListAdapter<NoteItem, NoteAdapter.ItemHolder>(ItemComparator
     //8.5 сразу после того как создается разметка, она сразу заполняется
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         //у holder есть функция setData. Заметки из базы данных ListAdapter берем из скрытого массива (в RecyclerViewAdapter мы можем сами создать массив который берем из базы данных и оттуда можем взять заметку)
-        holder.setData(getItem(position))
+        holder.setData(getItem(position), listener)     //14.6
     }
 
     //8.1 Создаем класс, который будет создавать и содержать разметку, которую мы создали в note_list_item.xml. Нужно создать собственный класс наследуясь от ViewHolder
     class ItemHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = NoteListItemBinding.bind(view)    //подключаем view к нашему классу NoteListItemBinding
         //8.2 В эту функцию нужно будет передавать по-очереди NoteItem и с помощью этих NoteItem мы и будем заполнять
-        fun setData(note: NoteItem) = with(binding) {
+        //14.4 Добавляем слушателя listener: Listener
+        fun setData(note: NoteItem, listener: Listener) = with(binding) {
             tvTitle.text = note.title
             tvDescription.text = note.content
             tvTime.text = note.time
+            //14.5
+            imDelete.setOnClickListener{
+                listener.deleteItem(note.id!!)
+            }
         }
         //статическая функция, с помощью которой мы инициализируем наш класс
         companion object {
@@ -61,6 +66,11 @@ class NoteAdapter : ListAdapter<NoteItem, NoteAdapter.ItemHolder>(ItemComparator
             return oldItem == newItem
         }
 
+    }
+
+    //14.1
+    interface Listener {
+        fun deleteItem(id: Int)
     }
 
 }

@@ -20,7 +20,7 @@ import com.mikekrysan.shoppinglist.db.NoteAdapter
 import com.mikekrysan.shoppinglist.entities.NoteItem
 
 //9
-class NoteFragment : BaseFragment() {
+class NoteFragment : BaseFragment(), NoteAdapter.Listener  { //14.2
 
     private lateinit var binding: FragmentNoteBinding
     private lateinit var editLauncher: ActivityResultLauncher<Intent>   //12.1 Мы нажимаем на кнопку New в BottomNavView и мы должны получить результат, когда закрываем активити и переходим на фрагмент
@@ -62,7 +62,7 @@ class NoteFragment : BaseFragment() {
     //13.2 Сдесь будем инициализировать наш RecyclerView и также инициализиуем здесь наш адаптер
     private fun initRcView() = with(binding){
         rcViewNote.layoutManager = LinearLayoutManager(activity) //layoutManager - у нас списки в RecyclerView элементы могут быть по-горизонтали, по-вертикали, подряд. Поэтому мы должны указать, как мы хотим, чтобы ишел наш список
-        adapter = NoteAdapter()    //Нужно передать адаптер, но для начала нужно его инициализировать
+        adapter = NoteAdapter(this@NoteFragment)    //Нужно передать адаптер, но для начала нужно его инициализировать   //14.5
         rcViewNote.adapter = adapter    //передаем адаптер в rcViewNote. Адаптер, который будет обновлять recyclerView - это adapter
     }
 
@@ -98,6 +98,12 @@ class NoteFragment : BaseFragment() {
 //        const val DESC_KEY = "description_key"  //12.4
         @JvmStatic
         fun newInstance() = NoteFragment()
+    }
+
+    //14.3
+    override fun deleteItem(id: Int) {
+        //14.9 Когда нажмем на элемент из нашего адаптера из списка запустится интерфейс, то-есть эта функция и нам выдаст идентификатор. Поэтому теперь с помощью mainViewModel можно сделать delete по идентификатору
+        mainViewModel.deleteNote(id)
     }
 }
 

@@ -21,6 +21,11 @@ class MainViewModel(database: MainDataBase) : ViewModel() {
         dao.insertNote(note)    //т.о. мы напрямую DAO не используем. Veiw напрямую не использует бизнес-логику
     }
 
+    //14.7
+    fun deleteNote(id: Int) = viewModelScope.launch {
+        dao.deleteNote(id)
+    }
+
     //10.4 Создаем класс, который инициализирует MainViewModel. Используем ViewModelProvider.Factory, как и рекомендует google
     class MainViewModelFactory(val database: MainDataBase) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

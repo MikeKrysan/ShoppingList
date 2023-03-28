@@ -26,6 +26,23 @@ import com.mikekrysan.shoppinglist.fragments.NoteFragment
     13.1 В NoteFragment добавляем обсервер который следит за изменениями и обновляет наш адаптер
     13.2 Нам нужно добавить recyclerView на нашу разметку. RecyclerView - это такой view, в котором мы будем показывать элементы из списка
     13.3 Нужно инициализировать адаптер
+
+Урок 14. Делаем удаление заметок
+    Создали кнопку удаления в note_list_fragment.xml . Поскольку мы работаем через архитектуру MVVM, все и удаление в т.ч. будем делать через MainViewModel
+    viewModel class находится во фрагменте, адаптер же  - отдельный класс, поэтому нам нужно будет добавить в адаптер интерфейс, с помощью которого если мы жмем в адаптере на элемент,
+    то у нас срабатывает в NoteFragment этот интерфейс-функция. И в этой функции мы уже запускаем функцию для удаления.
+    Т.о я жму на элемент в адаптере, но команда дублируется и срабатывает в NoteFragment и в этом фрагменте в функции deleteItem() мы уже запустим функцию для удаления
+    Для этого мы создали интерфейс, чтобы перенести действие удаления на фрагмент, чтобы там все срабатывало
+    14.1 Создали interface Listener в NoteAdapter
+    14.2 Добавили классу NoteFragment наследование от NoteAdapter.Listener
+    14.3 Создали функцию deleteItem в NoteFragment (необходимо реализовать все функции наследованного интерфейса)
+    14.4 Добавляем слушателя listener: Listener в setData<-ItemHolder<-NoteAdapter
+    14.5 NoteAdapter->ItemHolder->setData: imDelete.setOnClickListener { listener.deleteItem(note.id!!) }
+    14.6 NoteAdapter -> onBindViewHolder:  - добавляем в принимаемые параметры функции listener
+    14.7 MainViewModel: создаем функцию deleteNote() в которой из интервейса Dao удаляем заметку по id: dao.deleteNote(id)
+    14.8 Чтобы добраться до Dao, в интерфейсе Dao пишем:    @Query ("DELETE FROM note_list WHERE id IS :id")
+                                                            suspend fun deleteNote(id: Int)
+    14.9 NoteFragment -> deleteItem: mainViewModel.deleteNote(id).
  */
 
 class MainActivity : AppCompatActivity() {
