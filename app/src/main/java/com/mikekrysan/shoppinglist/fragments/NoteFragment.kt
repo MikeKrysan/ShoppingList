@@ -85,19 +85,16 @@ class NoteFragment : BaseFragment(), NoteAdapter.Listener  { //14.2
             if(it.resultCode == Activity.RESULT_OK) {
 //                Log.d("MyLog", "title: ${it.data?.getStringExtra(TITLE_KEY)}")
                 //13.6 Когда мы вернемся с результатом, то мы берем наш mainViewModel и записываем туда нашу заметку. Заметку получим строкой выше, отправив сразу целый класс NoteItem заполненный *
-                mainViewModel.insertNote(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)   //получаем
+                //15.13:
+                val editState = it.data?.getStringExtra(EDIT_STATE_KEY) //берем константу
+                if(editState == "update") {
+                    mainViewModel.updateNote(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)
+                } else {
+                    mainViewModel.insertNote(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)   //получаем
+                }
 //                Log.d("MyLog", "description: ${it.data?.getStringExtra(DESC_KEY)}")
             }
         }
-    }
-
-    //companion object - он нужен для того, чтобы сделать singltone - одна инстанция фрагмента, если мы несколько раз пытаемся ее запустить
-    companion object {
-        const val NEW_NOTE_KEY = "new_note_key"   //13.5
-//        const val TITLE_KEY = "title_key"   //12.3
-//        const val DESC_KEY = "description_key"  //12.4
-        @JvmStatic
-        fun newInstance() = NoteFragment()
     }
 
     //14.3
@@ -105,6 +102,26 @@ class NoteFragment : BaseFragment(), NoteAdapter.Listener  { //14.2
         //14.9 Когда нажмем на элемент из нашего адаптера из списка запустится интерфейс, то-есть эта функция и нам выдаст идентификатор. Поэтому теперь с помощью mainViewModel можно сделать delete по идентификатору
         mainViewModel.deleteNote(id)
     }
+
+    //15.3
+    override fun onClidkItem(note: NoteItem) {
+        //В этот раз не просто запускаем NewNoteActivity а еще передаем заметку, чтобы после там могли заполнить:
+        val intent = Intent(activity, NewNoteActivity::class.java).apply {
+            putExtra(NEW_NOTE_KEY, note)
+        }
+        editLauncher.launch(intent)
+    }
+
+    //companion object - он нужен для того, чтобы сделать singltone - одна инстанция фрагмента, если мы несколько раз пытаемся ее запустить
+    companion object {
+        const val NEW_NOTE_KEY = "new_note_key"   //13.5
+        const val EDIT_STATE_KEY = "edit_state_key"   //15.12
+        //        const val TITLE_KEY = "title_key"   //12.3
+//        const val DESC_KEY = "description_key"  //12.4
+        @JvmStatic
+        fun newInstance() = NoteFragment()
+    }
+
 }
 
 /*

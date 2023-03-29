@@ -20,6 +20,10 @@ class MainViewModel(database: MainDataBase) : ViewModel() {
     fun insertNote(note: NoteItem) = viewModelScope.launch {
         dao.insertNote(note)    //т.о. мы напрямую DAO не используем. Veiw напрямую не использует бизнес-логику
     }
+    //15.8:
+    fun updateNote(note: NoteItem) = viewModelScope.launch {
+        dao.updateNote(note)
+    }
 
     //14.7
     fun deleteNote(id: Int) = viewModelScope.launch {

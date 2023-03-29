@@ -43,6 +43,29 @@ import com.mikekrysan.shoppinglist.fragments.NoteFragment
     14.8 Чтобы добраться до Dao, в интерфейсе Dao пишем:    @Query ("DELETE FROM note_list WHERE id IS :id")
                                                             suspend fun deleteNote(id: Int)
     14.9 NoteFragment -> deleteItem: mainViewModel.deleteNote(id).
+
+Урок15. Делаем редактирование заметок
+    Нужно сделать слушателя нажатий на весь элемент NoteFragment с помощью интерфейса.
+    15.1 В NoteAdapter в interface Listener добавляем еще одну функцию: onClidkItem
+    15.2 Чтобы добавить слушателя на весь элемент, нужно добавить itemView.setOnClickListener в setData->ItemHolder->NoteAdapter
+    15.3 В NoteFragment имплементируем еще одну функцию
+    15.4 В NewNoteActivity нужно сделать несколько проверок. Если мы получим нашу заметку, она будет не null, это значит что мы зашли на это активити для редактирования
+        Если в intent мы попытаемся взять эту заметку и будет null - это значит, что мы ничего не передали, значит мы открыли активити для создания новой заметки (мы нажали onClickNew в NoteFragment)
+        15.4.1 Создаем переменную note в NewNoteItem
+        //15.4.2 Инициализируем редактируемую заметку с помощью функции getNote
+        //15.4.3 Функция для проверки, новая заметка или редактироваие созданной
+    15.5 Пытаемся сделать проверку функции fillNote в getNote   -> NewNoteActivity
+    15.6 Пытаемся сделать проверку функции getNote в onCreate-> NewNoteActivity
+    15.7 В Dao создаем возможность update заметки
+    15.8 Во MainViewModel создаем функцию funUpdate
+    15.9 в NewNoteActivity создаем функцию updateNote
+    15.10 Делаем проверку в setMainResult>NewNoteActivity, так как мы не создаем новую заметку, а отправляем копию старой
+    15.11 Когда мы вернемся на NoteFragment в функции onEditResult нужно будет определить, какие данные мы возвращаем для того чтобы сделать insert либо update. Для этого мы должны передать данные
+        putExtra в setMainResult -> NewNoteActivity
+    15.12 В NoteFragment создадим константу EDIT_STATE_KEY
+    15.13 Возвращаемся на onEditResult->NoteFragment и делаем проверку
+    15.14 В getNote->NewNoteActivity Когда мы заходим для создания новой заметки мы не можем превратить null в  сериализейбл (в NoteItem).
+        Поэтому прежде чем превращать в NoteItem сделаем следующую проверку
  */
 
 class MainActivity : AppCompatActivity() {

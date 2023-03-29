@@ -37,7 +37,11 @@ class NoteAdapter(private val listener: Listener) : ListAdapter<NoteItem, NoteAd
             tvTitle.text = note.title
             tvDescription.text = note.content
             tvTime.text = note.time
-            //14.5
+            //15.2:
+            itemView.setOnClickListener{
+                listener.onClidkItem(note)
+            }
+            //14.5:
             imDelete.setOnClickListener{
                 listener.deleteItem(note.id!!)
             }
@@ -71,6 +75,7 @@ class NoteAdapter(private val listener: Listener) : ListAdapter<NoteItem, NoteAd
     //14.1
     interface Listener {
         fun deleteItem(id: Int)
+        fun onClidkItem(note: NoteItem)   //15.1
     }
 
 }

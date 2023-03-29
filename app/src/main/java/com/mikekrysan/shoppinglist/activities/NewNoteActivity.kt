@@ -15,12 +15,32 @@ import java.util.*
 //11:
 class NewNoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNewNoteBinding
+    private var note: NoteItem? = null   //15.4.1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNewNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
         actionBarSettings()
+        getNote()   //15.6
+    }
+
+    //15.4.2
+    private fun getNote(){
+        //15.14:
+        val sNote = intent.getSerializableExtra(NoteFragment.NEW_NOTE_KEY)  //Получаем как сериализайбл и проверяем
+        if(sNote != null) {
+
+            note = sNote as NoteItem   //Когда мы заходим для создания новой заметки мы не можем превратить null в  сериализейбл (в NoteItem)
+            fillNote()  //15.5 пытаемся сделать проверку
+        }
+
+    }
+
+    //15.4.3 Эта функция у нас запустится только в том случае, если note не равен null
+    private fun fillNote() = with(binding) {
+        edTitle.setText(note?.title)
+        edDescription.setText(note?.content)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -41,6 +61,15 @@ class NewNoteActivity : AppCompatActivity() {
 
     //12.6 Функция для результата, когда мы жмем на кнопку "save". В классе NoteFragment уже все подготовлено
     private fun setMainResult() {
+        var editState = "new"    //15.11
+        //15.10:
+        val tempNote:NoteItem?
+        if(note == null) {
+            tempNote = createNewNote()
+        } else {
+            editState = "update"    //15.11.1
+            tempNote = updateNote()
+        }
         //создаем намерение:
         val i = Intent().apply {
             //указываем, что в нашем intent. Передаем значение,которое хотим передать. Берем из binding класса
@@ -49,11 +78,19 @@ class NewNoteActivity : AppCompatActivity() {
             //Как мы отправляем NoteItem в NoteFragment?:
 //            putExtra(NoteFragment.NEW_NOTE_KEY, binding.edTitle.text.toString())
             //13.10 в putExtra мы создаем и заполяняем класс NoteItem() и его отправляем назад на наш NoteFragment (onEditResult() -> получаем с помощью getSerializableExtra)
-            putExtra(NoteFragment.NEW_NOTE_KEY, createNewNote())
+            putExtra(NoteFragment.NEW_NOTE_KEY, tempNote)
+            putExtra(NoteFragment.EDIT_STATE_KEY, editState)   //15.11.2
 
         }
         setResult(RESULT_OK, i)
         finish()
+    }
+
+    //15.9:
+    private fun updateNote() : NoteItem? = with(binding) {
+        //Мы не создаем новую заметку, а остается все что было; делаем копию.
+        return note?.copy(title = edTitle.text.toString(),
+                    content = edDescription.text.toString())
     }
 
     //13.9 Функция будет собирать все воедино и заполянть класс NoteItem. И этот класс NoteItem будем возвращать заполенным который мы и передадим на наш фрагмент, откуда мы его и запрашиваем
