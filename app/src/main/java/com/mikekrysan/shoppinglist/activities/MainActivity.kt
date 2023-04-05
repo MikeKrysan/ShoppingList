@@ -66,6 +66,12 @@ import com.mikekrysan.shoppinglist.fragments.NoteFragment
     15.13 Возвращаемся на onEditResult->NoteFragment и делаем проверку
     15.14 В getNote->NewNoteActivity Когда мы заходим для создания новой заметки мы не можем превратить null в  сериализейбл (в NoteItem).
         Поэтому прежде чем превращать в NoteItem сделаем следующую проверку
+
+Урок16. Bold Style
+    16.1 Создали item в menu->new_note_menu
+    16.2 Добавили слушателя нажатий на вновь созданный item: NewNoteActivity->onOptionsItemSelected
+    16.3 Добавляем функцию setBoldForSelectedText: NewNoteActivity->onOptionsItemSelected для выделения текта и создаем ее
+    Пока что выделенный текст не сохраняется в базе данных. Он у нас будет сохранятся в виде html. В дальнейшем нужно будет сохранять и текст и стили в формате html в БД
  */
 
 class MainActivity : AppCompatActivity() {

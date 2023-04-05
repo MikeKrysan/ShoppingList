@@ -1,8 +1,11 @@
 package com.mikekrysan.shoppinglist.activities
 
 import android.content.Intent
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Spannable
+import android.text.style.StyleSpan
 import android.view.Menu
 import android.view.MenuItem
 import com.mikekrysan.shoppinglist.R
@@ -56,7 +59,31 @@ class NewNoteActivity : AppCompatActivity() {
         } else if(item.itemId == android.R.id.home) {
             finish()
         }
+        //16.2
+        else if(item.itemId == R.id.id_bold) {
+            setBoldForSelectedText()    //16.3
+        }
         return super.onOptionsItemSelected(item)
+    }
+
+    //16.3
+    private fun setBoldForSelectedText() = with(binding) {
+        //Когда мы выбираем, нам нужно знать, откуда мы выбрали текст и докуда, чтобы можно его выделить. Для этого создаем переменные которые будут хранить в себе позицию:
+        val startPos =  edDescription.selectionStart
+        val endPos =  edDescription.selectionEnd
+        //Сначала нужно проверить, есть ли уже у выбранного отрезка текста уже какой-нибудь стиль:
+        val styles = edDescription.text.getSpans(startPos, endPos, StyleSpan::class.java)
+        var boldStyle: StyleSpan? = null
+        if(styles.isNotEmpty()) {
+            edDescription.text.removeSpan(styles[0])
+        }   else {
+            boldStyle = StyleSpan(Typeface.BOLD)
+        }
+        edDescription.text.setSpan(boldStyle, startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE) //SPAN_EXCLUSIVE_EXCLUSIVE - тип добавления
+        ////чтобы избежать добавления пробелов между словами в редактируемом тексте:
+        edDescription.text.trim()
+        //Делаем так, чтобы курсор был вначале слова которое мы выбрали:
+        edDescription.setSelection(startPos)
     }
 
     //12.6 Функция для результата, когда мы жмем на кнопку "save". В классе NoteFragment уже все подготовлено
