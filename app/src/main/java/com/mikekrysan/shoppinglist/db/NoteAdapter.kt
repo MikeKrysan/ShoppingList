@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mikekrysan.shoppinglist.R
 import com.mikekrysan.shoppinglist.databinding.NoteListItemBinding
 import com.mikekrysan.shoppinglist.entities.NoteItem
+import com.mikekrysan.shoppinglist.utils.HtmlManager
 
 //8
 //В треугольных скобках указываем, что за элемент будет в списке- мы будем показывать в одном элементе одну заметку:
@@ -35,7 +36,8 @@ class NoteAdapter(private val listener: Listener) : ListAdapter<NoteItem, NoteAd
         //14.4 Добавляем слушателя listener: Listener
         fun setData(note: NoteItem, listener: Listener) = with(binding) {
             tvTitle.text = note.title
-            tvDescription.text = note.content
+//            tvDescription.text = note.content
+            tvDescription.text = HtmlManager.getFromHtml(note.content).trim()  //17.5   trim() - убирает пробелы, которые появляются внизу
             tvTime.text = note.time
             //15.2:
             itemView.setOnClickListener{

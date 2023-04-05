@@ -72,6 +72,17 @@ import com.mikekrysan.shoppinglist.fragments.NoteFragment
     16.2 Добавили слушателя нажатий на вновь созданный item: NewNoteActivity->onOptionsItemSelected
     16.3 Добавляем функцию setBoldForSelectedText: NewNoteActivity->onOptionsItemSelected для выделения текта и создаем ее
     Пока что выделенный текст не сохраняется в базе данных. Он у нас будет сохранятся в виде html. В дальнейшем нужно будет сохранять и текст и стили в формате html в БД
+
+Урок17. Создаем класс HtmlManager, который будет превращать текст в html, будет сохранять весь текст, который доабавляется, когда мы выбираем стиль, цвет
+    В классе будет функция fromHtml чтобы получить html-текст с кодом и из этго кода вырезать только текст чтобы он сразу приобрел те параметры, которые мы хотим (цвет, толщина текста)
+    17.1 Создаем новый пакет utils, создаем новый класс-object HtmlManager (для того чтобы его не инициализировать)
+    17.2 Идем в NewNoteActivity, когда мы сохраняем или обновляем заметку, нужно применить функции getFromHtml() и toHtml() класса HtmlManager: в функции updateNote()
+    17.3 NewNoteActivity->createNewNote binding.edDescription.text.toString() делаем с помощью HtmlManager.toHtml
+    17.4 Теперь нужно получить заметку. Когда мы заходим на создание новой заметки и заполняем нашу заметку, у нас есть ф. fillNote()
+    Теперь мы можем сохранять наш стиль в БД, когда мы возвращаемся на нашу заметку то этот стиль уже должен появится
+    17.5 В адаптере нужно также сделать fromHtml, иначе после сохраннего editText будет показан в таком виде: <p dir="Itr' style='margin-top...>. NoteAdapter-> ItemHolder->setData
+        Теперь коректно отображает и в NoteAdapter и в NewNoteActivity
+    17.6 NewNoteActivity-> fillNote: добавляем trim() - чтобы убрать пробелы
  */
 
 class MainActivity : AppCompatActivity() {

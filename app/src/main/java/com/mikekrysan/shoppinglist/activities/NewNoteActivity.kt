@@ -12,6 +12,7 @@ import com.mikekrysan.shoppinglist.R
 import com.mikekrysan.shoppinglist.databinding.ActivityNewNoteBinding
 import com.mikekrysan.shoppinglist.entities.NoteItem
 import com.mikekrysan.shoppinglist.fragments.NoteFragment
+import com.mikekrysan.shoppinglist.utils.HtmlManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,7 +44,8 @@ class NewNoteActivity : AppCompatActivity() {
     //15.4.3 Эта функция у нас запустится только в том случае, если note не равен null
     private fun fillNote() = with(binding) {
         edTitle.setText(note?.title)
-        edDescription.setText(note?.content)
+//        edDescription.setText(note?.content)
+        edDescription.setText(HtmlManager.getFromHtml(note?.content!!).trim() )  //17.4     //17.6
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -117,7 +119,8 @@ class NewNoteActivity : AppCompatActivity() {
     private fun updateNote() : NoteItem? = with(binding) {
         //Мы не создаем новую заметку, а остается все что было; делаем копию.
         return note?.copy(title = edTitle.text.toString(),
-                    content = edDescription.text.toString())
+//                    content = edDescription.text.toString())
+                        content = HtmlManager.toHtml(edDescription.text))    //17.2
     }
 
     //13.9 Функция будет собирать все воедино и заполянть класс NoteItem. И этот класс NoteItem будем возвращать заполенным который мы и передадим на наш фрагмент, откуда мы его и запрашиваем
@@ -125,7 +128,8 @@ class NewNoteActivity : AppCompatActivity() {
         return NoteItem(
             null,
             binding.edTitle.text.toString(),
-            binding.edDescription.text.toString(),
+//            binding.edDescription.text.toString(),
+            HtmlManager.toHtml(binding.edDescription.text), //17.3
             getCurrentTime(),
             ""
         )
